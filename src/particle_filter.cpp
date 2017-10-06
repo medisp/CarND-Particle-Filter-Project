@@ -1,8 +1,8 @@
 /*
  * particle_filter.cpp
  *
- *  Created on: Dec 12, 2016
- *      Author: Tiffany Huang
+ * Completed by Sai Prateek Medi @medisp
+ *
  */
 
 #include <random>
@@ -25,10 +25,18 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).	
 	// generator	
-	default_random_engine gen;	
-	num_particles = 200;
-
+	default_random_engine gen;
+	
+	/*test 
+	array<int> values= [100,200,300,400,500]; 
+	int randind = rand() % 4;
+	cout<<"particle count" << values[randit] ;
+	num_particles = values[randint];
+	*/
+	num_particles = 200; 
+	// init weights and resize
 	weights.resize(num_particles);
+	// init particles resize
 	particles.resize(num_particles);
 	double std_x, std_y, std_theta, sample_x,sample_y,sample_theta;
 	std_x = 2.0f;
@@ -103,7 +111,9 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 	//   implement this method and use it as a helper during the updateWeights phase.
 
 	// determine size length of landmarks
-	/*	
+	/*
+	*Deprecated/unused code.
+	*
 	int num_observations = observations.size();
 	
 	for (int i=0; i<observations.size(); i++) {
@@ -111,7 +121,7 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		obj_x = observations[i].x	
 		
 	} // end forloop i
-
+	
 	*/
 
 }
@@ -129,6 +139,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
 	// std_landmark Array of dimension 2 [Landmark measurement uncertainty [x [m], y [m]]
+	
+	// lesson code proved to be very helpful along with the link http://planning.cs.uiuc.edu/node99.html
 
 	const double constant_term = 1/ ( 2* M_PI * std_landmark[0] * std_landmark[1]);
 	const double sigma_x = 2 * std_landmark[0] * std_landmark[0];
@@ -200,7 +212,7 @@ void ParticleFilter::resample() {
 	default_random_engine gen;
 	// looping through particles
 	for (int i=0; i<num_particles; i++) {
-		std::discrete_distribution<int> index(weights.begin(),weights.end());
+		std::discrete_distribution<int> index(weights.begin(),weights.end()); //ranking index using start/end of vector
 		resampled_particles[i] = particles[index(gen)];	
 
 	} // end forloop i
