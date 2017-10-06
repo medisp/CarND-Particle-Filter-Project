@@ -170,7 +170,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			for(int k = 0 ; k < landmarks.size() ; k++ ) {
 			// using sensor_range to look for proximal landmarks only
 			const double landmark_indiv_dist = dist(particles[i].x,particles[i].y,landmarks[k].x_f,landmarks[k].y_f );
-	//sqrt(pow(particles[i].x - landmarks[k].x_f,2) + pow(particles[i].y - landmarks[k].y_f, 2));
 				
 				if(landmark_indiv_dist <= sensor_range) {
 				landmark_dist[k] = sqrt( pow(x_trans - landmarks[k].x_f,2) + pow(y_trans-landmarks[k].y_f,2));
